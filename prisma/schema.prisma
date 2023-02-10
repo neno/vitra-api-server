@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type ObjectsObjContentRel {
+  ConId          Int
+  ConTxt         String
+  ConType        String
+  ConTypeUnilang String
+}
+
+type ObjectsObjMultimediaRel {
+  MulDefinition String?
+  MulId         Int
+  MulUrl        String?
+  MulUrls       ObjectsObjMultimediaRelMulUrls[]
+}
+
+type ObjectsObjMultimediaRelMulUrls {
+  la           String
+  ladimensions Int[]
+  me           String
+  sm           String
+  xl           String
+}
+
+type ObjectsObjObjectRel {
+  ObjDateGrp_DateFromTxt      String
+  ObjDesigner                 String
+  ObjId                       Int
+  ObjObjectNumberGrp_Part1Txt String
+  ObjObjectNumberTxt          String?
+  ObjObjectTitleTxt           String
+  ObjUrl                      String
+}
+
+type ObjectsObjPersonRel {
+  PerBirthPlaceCity    String?
+  PerBirthPlaceCountry String?
+  PerDatingTxt         String?
+  PerId                Int
+  PerNameTxt           String
+  PerTypeVoc           String?
+  PerUrl               String?
+}
+
+type PersonsPerMultimediaRel {
+  MulDefinition String
+  MulId         Int
+  MulUrl        String
+  MulUrls       PersonsPerMultimediaRelMulUrls[]
+}
+
+type PersonsPerMultimediaRelMulUrls {
+  la           String
+  ladimensions Int[]
+  me           String
+  sm           String
+  xl           String
+}
+
+type PersonsPerObjectRel {
+  ObjDateGrp_DateFromTxt      String
+  ObjDesigner                 String
+  ObjHighlight                String?
+  ObjId                       Int
+  ObjObjectNumberGrp_Part1Txt String
+  ObjObjectNumberTxt          String?
+  ObjObjectTitleTxt           String?
+  ObjUrl                      String
+}
+
+model contents {
+  id             Int      @id @map("_id")
+  ConCount       Int
+  ConId          Int
+  ConTxt         String
+  ConType        String
+  ConTypeUnilang String
+  SyncDate       DateTime @db.Date
+}
+
+model objects {
+  id                          Int                       @id @map("_id")
+  ObjCategoryVoc              String?
+  ObjContentFunction          String?
+  ObjContentMaterial          String?
+  ObjContentRel               ObjectsObjContentRel[]
+  ObjContentType              String?
+  ObjContentUsage             String?
+  ObjCurrentLocationVrt       String?
+  ObjDateFromInt              Int?
+  ObjDateGrp_DateFromTxt      String
+  ObjDateGrp_Notes2Clb        String?
+  ObjDateToInt                Int?
+  ObjDateTxt                  String?
+  ObjDesigner                 String
+  ObjDimension                String?
+  ObjDomain                   String
+  ObjFullText                 String
+  ObjHighlight                String?
+  ObjId                       Int
+  ObjMarkdown                 String?
+  ObjMaterialTechniqueTxt     String?
+  ObjMultimediaRel            ObjectsObjMultimediaRel[]
+  ObjMutationDate             DateTime                  @db.Date
+  ObjObjectNumberGrp_Part1Txt String
+  ObjObjectNumberTxt          String?
+  ObjObjectRel                ObjectsObjObjectRel[]
+  ObjObjectTitleTxt           String?
+  ObjPersonRel                ObjectsObjPersonRel[]
+  SyncDate                    DateTime                  @db.Date
+}
+
+model persons {
+  id                   Int                       @id @map("_id")
+  PerBirthPlaceCity    String?
+  PerBirthPlaceCountry String?
+  PerDatingTxt         String?
+  PerDisplay           String
+  PerDomain            String
+  PerFullText          String
+  PerId                Int
+  PerMarkdown          String?
+  PerMultimediaRel     PersonsPerMultimediaRel[]
+  PerMutationDate      DateTime                  @db.Date
+  PerNameSortedTxt     String
+  PerNameTxt           String
+  PerNationalityTxt    String?
+  PerObjectRel         PersonsPerObjectRel[]
+  PerTypeVoc           String
+  SyncDate             DateTime                  @db.Date
+}
